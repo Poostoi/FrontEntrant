@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
+import { Alert } from 'react-bootstrap';
 import './App.css';
+import { TopPanel } from './TopPanel';
 
 export const App = () => {
 	useEffect(() => {
@@ -24,7 +26,18 @@ export const App = () => {
 	})
 	return (
 		<div className="App">
-
+			<body>
+				<header className='bg-dark'> <TopPanel /></header>
+				<main></main>
+				<footer>
+					<p>
+						<Alert key={'dark'} variant={'dark'}>
+							<a href="http://spsu.ru/">ПГУ им. Т. Г. Шевченко</a><br />
+							Copyright ©
+						</Alert>
+					</p>
+				</footer>
+			</body>
 		</div>
 	);
 }
