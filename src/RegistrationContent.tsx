@@ -1,52 +1,86 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-const url = 'https://localhost:7019/api/Account';
+import { MethodAxios } from './MethodAxios';
 interface IShow {
 	showBool: boolean;
 	toShow: () => void;
 	nameModal: string
 }
 export const RegistrationContent = ({ showBool, toShow, nameModal }: IShow) => {
+	const [validated, setValidated] = useState(false);
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
 
-	const login = () => {
-		axios({
-			method: 'post',
-			url: url + '/Login',
-			data: {
-				"login": "string1",
-				"password": "string"
-			}
-		}).then(responce => console.log(responce));
-	}
+
+	const handleSubmit = (event: any) => {
+		const form = event.currentTarget;
+		event.preventDefault();
+		event.stopPropagation();
+		if (form.checkValidity() === false) {
+			setValidated(true);
+		} else {
+			registration();
+			toShow();
+		}
+	};
+	const registration = () => {
+		MethodAxios({
+			method: "post",
+			urlMethod: "Account/Registration",
+			data: { login: username, password: password },
+			errorMethod: setError
+		});
+	};
+	const changeUsername = (e: any) => {
+		setUsername(e.target.value);
+	};
+	const changePassword = (e: any) => {
+		setPassword(e.target.value);
+	};
 	return (
 		<>
-
-
 			<Modal.Header closeButton>
 				<Modal.Title>{nameModal}</Modal.Title>
 			</Modal.Header>
-			<Modal.Body>
-				<Form>
-					<Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-						<Form.Label>Email address</Form.Label>
-						<Form.Control type="email" placeholder="name@example.com" />
-					</Form.Group>
-					<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-						<Form.Label>Example textarea</Form.Label>
-						<Form.Control as="textarea" rows={3} />
-					</Form.Group>
-				</Form>
-			</Modal.Body>
-			<Modal.Footer>
-				<Button variant="secondary" onClick={toShow}>
-					Закрыть
-				</Button>
-				<Button variant="primary" onClick={toShow}>
-					Войти
-				</Button>
-			</Modal.Footer>
+			<Form noValidate validated={validated} onSubmit={handleSubmit}>
+				<Modal.Body>
 
+					<Form.Group className="mb-3" controlId="LoginForm.ControlLogin">
+						<Form.Label>{error}</Form.Label>
+						<Form.Label>Login</Form.Label>
+						<Form.Control
+							required
+							type="text"
+							placeholder="Имя пользователя"
+							minLength={3}
+							maxLength={15}
+							value={username}
+							onChange={changeUsername}
+						/>
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="LoginForm.ControlPassword">
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+							required
+							type="text"
+							placeholder="Пароль"
+							minLength={3}
+							maxLength={15}
+							value={password}
+							onChange={changePassword}
+						/>
+					</Form.Group>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={toShow}>
+						Закрыть
+					</Button>
+					<Button type="submit" variant="primary">
+						Зарегистрироваться
+					</Button>
+				</Modal.Footer>
+			</Form>
 		</>
 	);
-}
+};
