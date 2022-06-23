@@ -1,33 +1,25 @@
-import { Alert, Container, Row } from "react-bootstrap";
 import "./App.css";
-import { NavigationPanel } from "./NavigationPanel";
-import { BrowserRouter as Router } from "react-router-dom";
-import { TopPanel } from "./TopPanel";
+import { NavigationPanel } from "./main-content/NavigationPanel";
+import { TopPanel } from "./top-panel-content/TopPanel";
 
 export const App = () => {
-	return (
-		<div className="App">
-			<body>
-				<header className="bg-dark">
-					<TopPanel />
-				</header>
-				<main>
-					<div className="m-2 justify-content-center">
-
-
-
-					</div>
-				</main>
-				<footer>
-					<p>
-						<Alert key={"dark"} variant={"dark"}>
-							<a href="http://spsu.ru/">ПГУ им. Т. Г. Шевченко</a>
-							<br />
-							Copyright ©
-						</Alert>
-					</p>
-				</footer>
-			</body>
-		</div>
-	);
+  return (
+    <div className="App">
+      <body>
+        <header className="bg-dark top">
+          <TopPanel />
+        </header>
+        <main className="main">
+          <div className="p-2 justify-content-center">
+            <NavigationPanel />
+          </div>
+        </main>
+        <footer className="footer bg-dark ">
+          <a href="http://spsu.ru/">ПГУ им. Т. Г. Шевченко</a>
+          <br />
+          Copyright ©
+        </footer>
+      </body>
+    </div>
+  );
 };
