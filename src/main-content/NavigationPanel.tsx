@@ -30,7 +30,7 @@ export const NavigationPanel = () => {
         <Tab eventKey="place-living" title="Место проживание">
           c
         </Tab>
-        <Tab eventKey="passport" title="Пасспорт">
+        <Tab eventKey="passport" title="Паспорт">
           d
         </Tab>
         <Tab eventKey="education" title="Образование">

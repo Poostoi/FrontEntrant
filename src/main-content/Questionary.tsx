@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { Form, Row, Col } from "react-bootstrap";
+import { DateElement } from "./DateElement";
 import { SelectElement } from "./SelectElement";
+import { TextElement } from "./TextElement";
 
 export const Questionary = () => {
-  const faculteis = [
-    "Физико-математический",
-    "Инженерно-технический",
-    "Экономический",
-    "dsfsd",
-    "afasf",
-  ];
-  const [faculty, setFaculty] = useState(faculteis[0]);
-  const [speciality, setSpeciality] = useState(faculteis[1]);
-  const [formaEducation, setFormaEducation] = useState(faculteis[0]);
-  const [languageEducation, setLanguageEducation] = useState(faculteis[0]);
-  const [educationOn, setEducationOn] = useState(faculteis[0]);
-  const [languageExams, setLanguageExams] = useState(faculteis[0]);
-  const [officialLanguage, setOfficialLanguage] = useState(faculteis[0]);
-  const [foreignLanguage, setForeignLanguage] = useState(faculteis[0]);
+  const gender = ["Мужской", "Женский"];
+  const mariedStatus = ["Не в браке", "В браке"];
+  const nationalities = ["Русский"];
+  const [dateBirth, setDateBirth] = useState("");
+  const [sex, setSex] = useState(gender[0]);
+  const [nationality, setNationality] = useState(nationalities[0]);
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [patronymic, setPatronymic] = useState("");
+  const [mother, setMother] = useState(false);
+  const [father, setFather] = useState(false);
+  const [countBrotherOrSister, setCountBrotherOrSister] = useState(0);
+  const [maried, setMaried] = useState(mariedStatus[0]);
 
   const handleSubmit = (event: any) => {
     const form = event.currentTarget;
@@ -31,80 +31,93 @@ export const Questionary = () => {
   return (
     <>
       <Form noValidate onSubmit={handleSubmit}>
-        <SelectElement
-          name="Faculty"
-          value={faculty}
-          setValue={setFaculty}
-          valueLabel="Факультет"
-          array={faculteis}
-        />
-        <SelectElement
-          name="Speciality"
-          value={speciality}
-          setValue={setSpeciality}
-          valueLabel="Специальность"
-          array={faculteis}
-        />
         <Row>
-          <Col>
-            <SelectElement
-              name="FormaEducation"
-              value={formaEducation}
-              setValue={setFormaEducation}
-              valueLabel="Форма обучения"
-              array={faculteis}
-            />
-          </Col>
+          <Row>
+            <Col>
+              <DateElement
+                name="DateBirth"
+                setValue={setDateBirth}
+                valueLabel="Дата рождения"
+              />
+            </Col>
+            <Col>
+              <SelectElement
+                name="Sex"
+                value={sex}
+                setValue={setSex}
+                valueLabel="Пол"
+                array={gender}
+              />
+            </Col>
+            <Col>
+              <SelectElement
+                name="Nationality"
+                value={nationality}
+                setValue={setNationality}
+                valueLabel="Национальность"
+                array={nationalities}
+              />
+            </Col>
+          </Row>
+          <TextElement
+            name="Surname"
+            value={surname}
+            setValue={setSurname}
+            valueLabel="Фамилия"
+          />
+          <TextElement
+            name="Name"
+            value={name}
+            setValue={setName}
+            valueLabel="Имя"
+          />
 
-          <Col>
-            <SelectElement
-              name="LanguageEducation"
-              value={languageEducation}
-              setValue={setLanguageEducation}
-              valueLabel="Язык обучения"
-              array={faculteis}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <SelectElement
-              name="EducationOn"
-              value={educationOn}
-              setValue={setEducationOn}
-              valueLabel="Обучение на"
-              array={faculteis}
-            />
-          </Col>
-          <Col>
-            <SelectElement
-              name="LanguageExams"
-              value={languageExams}
-              setValue={setLanguageExams}
-              valueLabel="Вступительные экзамены на"
-              array={faculteis}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <SelectElement
-              name="OfficialLanguage"
-              value={officialLanguage}
-              setValue={setOfficialLanguage}
-              valueLabel="Официфльный язык"
-              array={faculteis}
-            />
-          </Col>
-          <Col>
-            <SelectElement
-              name="ForeignLanguage"
-              value={foreignLanguage}
-              setValue={setForeignLanguage}
-              valueLabel="Иностранный язык"
-              array={faculteis}
-            />
-          </Col>
+          <TextElement
+            name="Patronymic"
+            value={patronymic}
+            setValue={setPatronymic}
+            valueLabel="Отчество"
+          />
+          <Row>
+            <Col>
+              <Form.Check
+                type={"checkbox"}
+                id={`default-checkbox`}
+                label={`Отец`}
+                onChange={() => {
+                  setFather(!father);
+                }}
+              />
+            </Col>
+            <Col>
+              <Form.Check
+                type={"checkbox"}
+                id={`default-checkbox`}
+                label={`Мать`}
+                onChange={() => setMother(!mother)}
+              />
+            </Col>
+            <Col>
+              <Form.Group
+                className="mb-3"
+                controlId={"Form.СountBrotherOrSister"}
+              >
+                <Form.Label className="ml-3">{"Братьев, сестёр"}</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={countBrotherOrSister}
+                  onChange={(e: any) => setCountBrotherOrSister(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+            </Col>
+          </Row>
+          <SelectElement
+            name="Maried"
+            value={maried}
+            setValue={setMaried}
+            valueLabel="Семейное положение"
+            array={mariedStatus}
+          />
         </Row>
       </Form>
     </>
