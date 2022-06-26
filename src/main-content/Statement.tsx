@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form, Row, Col } from "react-bootstrap";
-import { SelectElement } from "./SelectElement";
-
-export const Statement = () => {
+import { SelectElement } from "../function/SelectElement";
+interface IStatement {
+  setCheck: (e: any) => void;
+  validated: boolean;
+}
+export const Statement = ({ setCheck, validated }: IStatement) => {
   const faculteis = [
+    "",
     "Физико-математический",
     "Инженерно-технический",
     "Экономический",
@@ -27,10 +31,25 @@ export const Statement = () => {
     } else {
     }
   };
-
+  const change = (e: any) => {
+    const form = e.currentTarget;
+    console.log(form.checkValidity());
+    if (form.checkValidity()) {
+      setCheck(true);
+    } else {
+      setCheck(false);
+    }
+  };
+  useEffect(() => {});
   return (
     <>
-      <Form noValidate onSubmit={handleSubmit}>
+      <Form
+        noValidate
+        validated={validated}
+        onChange={change}
+        onSubmit={handleSubmit}
+        id="FormStatement"
+      >
         <SelectElement
           name="Faculty"
           value={faculty}

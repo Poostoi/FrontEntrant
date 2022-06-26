@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { Form, Row, Col } from "react-bootstrap";
-import { DateElement } from "./DateElement";
-import { SelectElement } from "./SelectElement";
-import { TextElement } from "./TextElement";
-
-export const Questionary = () => {
+import { DateElement } from "../function/DateElement";
+import { NumberElement } from "../function/NumberElement";
+import { SelectElement } from "../function/SelectElement";
+import { TextElement } from "../function/TextElement";
+interface IQuestionary {
+  setCheck: (e: any) => void;
+  validated: boolean;
+}
+export const Questionary = ({ setCheck, validated }: IQuestionary) => {
   const gender = ["Мужской", "Женский"];
   const mariedStatus = ["Не в браке", "В браке"];
   const nationalities = ["Русский"];
@@ -16,21 +20,23 @@ export const Questionary = () => {
   const [patronymic, setPatronymic] = useState("");
   const [mother, setMother] = useState(false);
   const [father, setFather] = useState(false);
+  const [hostel, setHostel] = useState(false);
   const [countBrotherOrSister, setCountBrotherOrSister] = useState(0);
   const [maried, setMaried] = useState(mariedStatus[0]);
 
-  const handleSubmit = (event: any) => {
-    const form = event.currentTarget;
-    event.preventDefault();
-    event.stopPropagation();
-    if (form.checkValidity() === false) {
+  const change = (e: any) => {
+    const form = e.currentTarget;
+
+    console.log(form.checkValidity());
+    if (form.checkValidity()) {
+      setCheck(true);
     } else {
+      setCheck(false);
     }
   };
-
   return (
     <>
-      <Form noValidate onSubmit={handleSubmit}>
+      <Form noValidate validated={validated} onChange={change}>
         <Row>
           <Row>
             <Col>
@@ -82,42 +88,44 @@ export const Questionary = () => {
             <Col>
               <Form.Check
                 type={"checkbox"}
-                id={`default-checkbox`}
+                id={`checkbox-father`}
                 label={`Отец`}
                 onChange={() => {
                   setFather(!father);
                 }}
               />
-            </Col>
-            <Col>
               <Form.Check
                 type={"checkbox"}
-                id={`default-checkbox`}
+                id={`checkbox-mother`}
                 label={`Мать`}
                 onChange={() => setMother(!mother)}
               />
+              <Form.Check
+                type={"checkbox"}
+                id={`checkbox-hostel`}
+                label={`Общежитие`}
+                onChange={() => setHostel(!hostel)}
+              />
             </Col>
             <Col>
-              <Form.Group
-                className="mb-3"
-                controlId={"Form.СountBrotherOrSister"}
-              >
-                <Form.Label className="ml-3">{"Братьев, сестёр"}</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={countBrotherOrSister}
-                  onChange={(e: any) => setCountBrotherOrSister(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
+              <NumberElement
+                name="СountBrotherOrSister"
+                value={countBrotherOrSister}
+                classNumber=""
+                setValue={setCountBrotherOrSister}
+                valueLabel="Братьев, сестёр"
+                minNumber={0}
+                maxNumber={20}
+              />
             </Col>
+            <SelectElement
+              name="Maried"
+              value={maried}
+              setValue={setMaried}
+              valueLabel="Семейное положение"
+              array={mariedStatus}
+            />
           </Row>
-          <SelectElement
-            name="Maried"
-            value={maried}
-            setValue={setMaried}
-            valueLabel="Семейное положение"
-            array={mariedStatus}
-          />
         </Row>
       </Form>
     </>

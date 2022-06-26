@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { MethodAxios } from "../function/MethodAxios";
+import { TextElement } from "../function/TextElement";
 interface IShow {
   showBool: boolean;
   toShow: () => void;
@@ -31,12 +32,7 @@ export const RegistrationContent = ({ showBool, toShow, nameModal }: IShow) => {
       errorMethod: setError,
     });
   };
-  const handleInputChange = (e: any) => {
-    const target = e.target;
-    const value = target.value;
-    if (target.name === "login") setUsername(value);
-    else if (target.name === "password") setPassword(value);
-  };
+
   return (
     <>
       <Modal.Header closeButton>
@@ -44,33 +40,22 @@ export const RegistrationContent = ({ showBool, toShow, nameModal }: IShow) => {
       </Modal.Header>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Modal.Body>
-          <Form.Group className="mb-3" controlId="LoginForm.ControlLogin">
-            <Form.Label>{error}</Form.Label>
-            <Form.Label>Login</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              name="login"
-              placeholder="Имя пользователя"
-              minLength={3}
-              maxLength={15}
-              value={username}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="LoginForm.ControlPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              name="password"
-              placeholder="Пароль"
-              minLength={3}
-              maxLength={15}
-              value={password}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
+          <TextElement
+            name="Username"
+            value={username}
+            setValue={setUsername}
+            valueLabel="Имя пользователя"
+            minString={3}
+            maxString={15}
+          />
+          <TextElement
+            name="Password"
+            value={password}
+            setValue={setPassword}
+            valueLabel="Пароль"
+            minString={3}
+            maxString={15}
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={toShow}>

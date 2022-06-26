@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap";
-import { MakeItemOption } from "../function/MakeItemOption";
+import { MakeItemOption } from "./MakeItemOption";
 
 interface ISelectElement {
   name: string;
@@ -16,13 +16,13 @@ export const SelectElement = ({
   array, //массив со значениями выпадающего списка
 }: ISelectElement) => {
   const handlerSelect = (e: any) => {
-    setValue(e.value);
+    setValue(e.target.value);
   };
   return (
     <>
       <Form.Group className="mb-3" controlId={"Form." + name}>
         <Form.Label className="ml-3">{valueLabel}</Form.Label>
-        <Form.Select value={value} onChange={handlerSelect}>
+        <Form.Select value={value} required onChange={handlerSelect}>
           {MakeItemOption(array)}
         </Form.Select>
       </Form.Group>
