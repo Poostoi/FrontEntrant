@@ -5,8 +5,24 @@ import { Education } from "./Education";
 import { Passport } from "./Passport";
 import { Questionary } from "./Questionary";
 import { Statement } from "./Statement";
-
-export const NavigationPanel = () => {
+interface IArrayDate {
+  faculty: string[];
+  speciality: string[];
+  language: string[];
+  country: string[];
+  region: string[];
+  destrict: string[];
+  place: string[];
+}
+export const NavigationPanel = ({
+  faculty,
+  speciality,
+  language,
+  country,
+  region,
+  destrict,
+  place,
+}: IArrayDate) => {
   const [key, setKey] = useState("statement");
   const [validatedStat, setValidatedStat] = useState(false);
   const [validatedQuest, setValidatedQuest] = useState(false);
@@ -20,8 +36,6 @@ export const NavigationPanel = () => {
   const [validatedEducation, setValidatedEducation] = useState(false);
   const [validatedAddress, setValidatedAddress] = useState(false);
   const goToTab = (k: any) => {
-    console.log(k);
-
     if (key === "statement") {
       setValidatedStat(validatedStatement ? false : true);
 
@@ -37,7 +51,6 @@ export const NavigationPanel = () => {
     if (key === "place-living") {
       if (validatedAddress) setKey(k);
       setValidatedAdd(validatedAddress ? false : true);
-      console.log(validatedAddress);
     }
 
     if (key === "passport" && validatedPassport === true) {
@@ -64,8 +77,25 @@ export const NavigationPanel = () => {
           <Row className="col-12 justify-content-center">
             <Col className="col-8 ">
               <Statement
+                faculteis={faculty}
+                specialiteis={speciality}
+                language={language}
                 validated={validatedStat}
                 setCheck={setValidatedStatement}
+              />
+            </Col>
+          </Row>
+        </Tab>
+				<Tab eventKey="place-living" title="Место проживания">
+          <Row className="col-12 justify-content-center">
+            <Col className="col-8 ">
+              <Address
+                countries={country}
+                destricts={destrict}
+                regions={region}
+                places={place}
+                validated={validatedAdd}
+                setCheck={setValidatedAddress}
               />
             </Col>
           </Row>
@@ -80,37 +110,39 @@ export const NavigationPanel = () => {
             </Col>
           </Row>
         </Tab>
-        <Tab eventKey="place-living" title="Место проживание">
-          <Row className="col-12 justify-content-center">
-            <Col className="col-8 ">
-              <Address
-                validated={validatedAdd}
-                setCheck={setValidatedAddress}
-              />
-            </Col>
-          </Row>
-        </Tab>
+
         <Tab eventKey="passport" title="Паспорт">
           <Row className="col-12 justify-content-center">
             <Col className="col-8 ">
               <Passport
+                place={place}
+                country={country}
                 validated={validatedPass}
                 setCheck={setValidatedPassport}
               />
             </Col>
           </Row>
         </Tab>
-        <Tab eventKey="education" title="Образование">
+				<Tab eventKey="education" title="Образование">
           <Row className="col-12 justify-content-center">
             <Col className="col-8 ">
               <Education
+                countries={country}
+                destricts={destrict}
+                regions={region}
+                places={place}
+                languages={language}
                 validated={validatedEduc}
                 setCheck={setValidatedEducation}
               />
             </Col>
           </Row>
         </Tab>
-        {/* <Tab eventKey="school-marks" title="Школьные оценки">
+
+        {/*
+				
+				
+				<Tab eventKey="school-marks" title="Школьные оценки">
           На данный момент в разработке
         </Tab>
         <Tab eventKey="documents" title="Документы">

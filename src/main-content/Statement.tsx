@@ -1,35 +1,63 @@
 import { useState, useEffect } from "react";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import { MethodAxios } from "../function/MethodAxios";
 import { SelectElement } from "../function/SelectElement";
+const url = "https://localhost:7019/api/";
 interface IStatement {
   setCheck: (e: any) => void;
   validated: boolean;
+  faculteis: string[];
+  specialiteis: string[];
+  language: string[];
 }
-export const Statement = ({ setCheck, validated }: IStatement) => {
-  const faculteis = [
-    "",
-    "Физико-математический",
-    "Инженерно-технический",
-    "Экономический",
-    "dsfsd",
-    "afasf",
-  ];
+interface Data {
+  country: string[];
+}
+export const Statement = ({
+  setCheck,
+  validated,
+  faculteis,
+  specialiteis,
+  language,
+}: IStatement) => {
+  const form = ["", "очная", "заочная"];
+  const educationOns = ["", "бюджете", "договоре"];
+
   const [faculty, setFaculty] = useState(faculteis[0]);
-  const [speciality, setSpeciality] = useState(faculteis[1]);
-  const [formaEducation, setFormaEducation] = useState(faculteis[0]);
-  const [languageEducation, setLanguageEducation] = useState(faculteis[0]);
-  const [educationOn, setEducationOn] = useState(faculteis[0]);
-  const [languageExams, setLanguageExams] = useState(faculteis[0]);
-  const [officialLanguage, setOfficialLanguage] = useState(faculteis[0]);
-  const [foreignLanguage, setForeignLanguage] = useState(faculteis[0]);
+  const [speciality, setSpeciality] = useState(specialiteis[0]);
+  const [formaEducation, setFormaEducation] = useState(form[0]);
+  const [languageEducation, setLanguageEducation] = useState(language[0]);
+  const [educationOn, setEducationOn] = useState(educationOns[0]);
+  const [languageExams, setLanguageExams] = useState(language[0]);
+  const [officialLanguage, setOfficialLanguage] = useState(language[0]);
+  const [foreignLanguage, setForeignLanguage] = useState(language[0]);
 
   const handleSubmit = (event: any) => {
     const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
     if (form.checkValidity() === false) {
+      setCheck(false);
     } else {
+      submit();
+      setCheck(true);
     }
+  };
+  const submit = () => {
+    MethodAxios({
+      method: "post",
+      urlMethod: "Account/Login",
+      data: {
+        faculty: faculty,
+        speciality: speciality,
+        formaEducation: formaEducation,
+        languageEducation: languageEducation,
+        educationOn: educationOn,
+        languageExams: languageExams,
+        officialLanguage: officialLanguage,
+        foreignLanguage: foreignLanguage,
+      },
+    });
   };
   const change = (e: any) => {
     const form = e.currentTarget;
@@ -62,7 +90,7 @@ export const Statement = ({ setCheck, validated }: IStatement) => {
           value={speciality}
           setValue={setSpeciality}
           valueLabel="Специальность"
-          array={faculteis}
+          array={specialiteis}
         />
         <Row>
           <Col>
@@ -71,7 +99,7 @@ export const Statement = ({ setCheck, validated }: IStatement) => {
               value={formaEducation}
               setValue={setFormaEducation}
               valueLabel="Форма обучения"
-              array={faculteis}
+              array={form}
             />
           </Col>
 
@@ -81,7 +109,7 @@ export const Statement = ({ setCheck, validated }: IStatement) => {
               value={languageEducation}
               setValue={setLanguageEducation}
               valueLabel="Язык обучения"
-              array={faculteis}
+              array={language}
             />
           </Col>
         </Row>
@@ -92,7 +120,7 @@ export const Statement = ({ setCheck, validated }: IStatement) => {
               value={educationOn}
               setValue={setEducationOn}
               valueLabel="Обучение на"
-              array={faculteis}
+              array={educationOns}
             />
           </Col>
           <Col>
@@ -101,7 +129,7 @@ export const Statement = ({ setCheck, validated }: IStatement) => {
               value={languageExams}
               setValue={setLanguageExams}
               valueLabel="Вступительные экзамены на"
-              array={faculteis}
+              array={language}
             />
           </Col>
         </Row>
@@ -112,7 +140,7 @@ export const Statement = ({ setCheck, validated }: IStatement) => {
               value={officialLanguage}
               setValue={setOfficialLanguage}
               valueLabel="Официфльный язык"
-              array={faculteis}
+              array={language}
             />
           </Col>
           <Col>
@@ -121,10 +149,13 @@ export const Statement = ({ setCheck, validated }: IStatement) => {
               value={foreignLanguage}
               setValue={setForeignLanguage}
               valueLabel="Иностранный язык"
-              array={faculteis}
+              array={language}
             />
           </Col>
         </Row>
+        <Button type="submit" variant="primary">
+          Отправить
+        </Button>
       </Form>
     </>
   );

@@ -1,10 +1,10 @@
 import axios from "axios";
-const url = "https://25.14.24.163:7019/api";
+const url = "https://localhost:7019/api";
 interface IAxios {
   method: string;
   urlMethod: string;
-  data: {};
-  errorMethod: (e: string) => void;
+  data?: {} | undefined;
+  errorMethod?: (e: string) => void | undefined;
 }
 export const MethodAxios = ({
   method,

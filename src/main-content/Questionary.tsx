@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Button } from "react-bootstrap";
 import { DateElement } from "../function/DateElement";
 import { NumberElement } from "../function/NumberElement";
 import { SelectElement } from "../function/SelectElement";
@@ -20,7 +20,6 @@ export const Questionary = ({ setCheck, validated }: IQuestionary) => {
   const [patronymic, setPatronymic] = useState("");
   const [mother, setMother] = useState(false);
   const [father, setFather] = useState(false);
-  const [hostel, setHostel] = useState(false);
   const [countBrotherOrSister, setCountBrotherOrSister] = useState(0);
   const [maried, setMaried] = useState(mariedStatus[0]);
 
@@ -100,11 +99,12 @@ export const Questionary = ({ setCheck, validated }: IQuestionary) => {
                 label={`Мать`}
                 onChange={() => setMother(!mother)}
               />
-              <Form.Check
-                type={"checkbox"}
-                id={`checkbox-hostel`}
-                label={`Общежитие`}
-                onChange={() => setHostel(!hostel)}
+              <SelectElement
+                name="Maried"
+                value={maried}
+                setValue={setMaried}
+                valueLabel="Семейное положение"
+                array={mariedStatus}
               />
             </Col>
             <Col>
@@ -118,15 +118,11 @@ export const Questionary = ({ setCheck, validated }: IQuestionary) => {
                 maxNumber={20}
               />
             </Col>
-            <SelectElement
-              name="Maried"
-              value={maried}
-              setValue={setMaried}
-              valueLabel="Семейное положение"
-              array={mariedStatus}
-            />
           </Row>
         </Row>
+        <Button type="submit" variant="primary">
+          Войти
+        </Button>
       </Form>
     </>
   );

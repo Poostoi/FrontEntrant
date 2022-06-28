@@ -7,24 +7,60 @@ import { TextElement } from "../function/TextElement";
 interface IEducation {
   setCheck: (e: any) => void;
   validated: boolean;
+  countries: string[];
+  destricts: string[];
+  regions: string[];
+  places: string[];
+  languages: string[];
 }
-export const Education = ({ setCheck, validated }: IEducation) => {
-  const gender = ["Мужской", "Женский"];
-  const languages = ["Русский"];
-  const [characterEducation, setCharacterEducation] = useState(gender[0]);
+
+export const Education = ({
+  setCheck,
+  validated,
+  countries,
+  destricts,
+  regions,
+  places,
+  languages,
+}: IEducation) => {
+  const typeEducationalInstitutions = [
+    "Школа",
+    "Техникум",
+    "Лицей",
+    "Колледж",
+    "Гимназия",
+    "Университет",
+    "Академия",
+    "Институт",
+    "ПТУ, ГПТУ, СПТУ",
+    "Худож.училище",
+    "Школа-интернат",
+  ];
+  const characterEducations = [
+    "Среднее профес.",
+    "Высшее",
+    "Начальное профес.",
+    "Общее полное среднее (11 кл.)",
+    "Неполное высшее",
+    "Основное среднее (9 кл.)",
+  ];
+
+  const [characterEducation, setCharacterEducation] = useState(
+    characterEducations[0]
+  );
   const [typeEducationalInstitution, setTypeEducationalInstitution] = useState(
-    gender[0]
+    typeEducationalInstitutions[0]
   );
   const [nameEducationalInstitution, setNameEducationalInstitution] =
     useState("");
   const [numberEducationalInstitution, setNumberEducationalInstitution] =
-    useState(1);
+    useState(0);
   const [expirationDate, setExpirationDate] = useState("");
   const [language, setLanguage] = useState(languages[0]);
-  const [country, setCountry] = useState(gender[0]);
-  const [region, setRegion] = useState(gender[0]);
-  const [destrict, setDestrict] = useState(gender[0]);
-  const [place, setPlace] = useState(gender[0]);
+  const [country, setCountry] = useState(countries[0]);
+  const [region, setRegion] = useState(destricts[0]);
+  const [destrict, setDestrict] = useState(regions[0]);
+  const [place, setPlace] = useState(places[0]);
 
   const handleSubmit = (event: any) => {
     const form = event.currentTarget;
@@ -59,7 +95,7 @@ export const Education = ({ setCheck, validated }: IEducation) => {
               value={characterEducation}
               setValue={setCharacterEducation}
               valueLabel="Тип образования"
-              array={gender}
+              array={characterEducations}
             />
             <TextElement
               name="NameEducationalInstitution"
@@ -85,7 +121,7 @@ export const Education = ({ setCheck, validated }: IEducation) => {
                   value={typeEducationalInstitution}
                   setValue={setTypeEducationalInstitution}
                   valueLabel="Тип уч. заведения"
-                  array={gender}
+                  array={typeEducationalInstitutions}
                 />
               </Col>
             </Row>
@@ -100,7 +136,7 @@ export const Education = ({ setCheck, validated }: IEducation) => {
               value={language}
               setValue={setLanguage}
               valueLabel="Язык обучения"
-              array={gender}
+              array={languages}
             />
           </Col>
           <Col>
@@ -109,28 +145,28 @@ export const Education = ({ setCheck, validated }: IEducation) => {
               value={country}
               setValue={setCountry}
               valueLabel="Страна"
-              array={gender}
+              array={countries}
             />
             <SelectElement
               name="Region"
               value={region}
               setValue={setRegion}
               valueLabel="Район"
-              array={gender}
+              array={regions}
             />
             <SelectElement
               name="Destrict"
               value={destrict}
               setValue={setDestrict}
               valueLabel="Область"
-              array={gender}
+              array={destricts}
             />
             <SelectElement
               name="Place"
               value={place}
               setValue={setPlace}
               valueLabel="Место"
-              array={gender}
+              array={places}
             />
           </Col>
         </Row>

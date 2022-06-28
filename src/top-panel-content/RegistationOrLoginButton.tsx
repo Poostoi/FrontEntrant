@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { RegistrationContent } from "./RegistrationContent";
 import { ModalWindow } from "./ModalWindow";
 import { LoginContent } from "./LoginContent";
